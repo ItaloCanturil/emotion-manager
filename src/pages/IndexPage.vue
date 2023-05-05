@@ -1,5 +1,7 @@
 <template>
   <q-page class="row items-center justify-evenly">
+    <h3 class="text-gray-500">Hi, User</h3>
+    <h1>How are you feeling today?</h1>
     <example-component
       title="Example component"
       active
