@@ -1,44 +1,43 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page class="column items-center justify-evenly">
     <h3 class="text-gray-500">Hi, User</h3>
-    <h1>How are you feeling today?</h1>
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+    <!-- <h1>How are you feeling today?</h1> -->
+
+    <div class="tw-flex tw-w-full tw-justify-center tw-overflow-scroll tw-scrollbar-hide">
+      <EmotionBox class="tw-mx-3" v-for="emotion in emotions" :key="emotion.emotion" :icon="emotion.icon" :emotion="emotion.emotion"/>
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
+import { IEmotion } from 'components/models';
+import EmotionBox from 'components/EmotionBox.vue';
 import { ref } from 'vue';
 
-const todos = ref<Todo[]>([
+const emotions = ref<IEmotion[]>([
   {
-    id: 1,
-    content: 'ct1'
+    icon: 'fa-solid fa-face-laugh-beam',
+    emotion: 'Happy'
   },
   {
-    id: 2,
-    content: 'ct2'
+    icon: 'fa-solid fa-face-frown',
+    emotion: 'Sad'
   },
   {
-    id: 3,
-    content: 'ct3'
+    icon: 'fa-solid fa-face-laugh-beam',
+    emotion: 'Happy'
   },
   {
-    id: 4,
-    content: 'ct4'
+    icon: 'fa-solid fa-face-laugh-beam',
+    emotion: 'Happy'
   },
   {
-    id: 5,
-    content: 'ct5'
-  }
+    icon: 'fa-solid fa-face-laugh-beam',
+    emotion: 'Happy'
+  },
+  {
+    icon: 'fa-solid fa-face-laugh-beam',
+    emotion: 'Happy'
+  },
 ]);
-const meta = ref<Meta>({
-  totalCount: 1200
-});
 </script>

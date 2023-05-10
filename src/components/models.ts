@@ -1,6 +1,6 @@
-export interface Todo {
-  id: number;
-  content: string;
+export interface IEmotion {
+  icon: string;
+  emotion: string;
 }
 
 export interface Meta {
