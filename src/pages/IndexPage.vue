@@ -1,21 +1,27 @@
 <template>
-  <q-page class="home tw-grid">
-    <h1 class="home__title tw-leading-normal tw-self-end">Hi, User</h1>
+  <q-page class="home tw-flex tw-justify-evenly tw-flex-col">
+    <section class="home__titles">
+      <div class="tw-flex tw-justify-center">
+        <p>{{ currentDate }}</p>
+      </div>
+      <h1 class="home__title tw-leading-normal tw-self-end tw-mt-auto">Hi, User</h1>
+    </section>
     <!-- <h1>How are you feeling today?</h1> -->
 
     <div class="home__emotion tw-flex tw-w-full tw-overflow-scroll tw-scrollbar-hide  tw-self-start ">
       <EmotionBox class="tw-mx-3 tw-text-gray-400" :class="{'tw-bg-primary' : active == index}"  v-for="(emotion, index) in emotions" :key="emotion.emotion" :icon="emotion.icon" :emotion="emotion.emotion" @click="() => active == index ? active = -1 : active = index"/>
     </div>
 
-    <div class="home__wrapper tw-bg-second">
+    <div class="home__wrapper">
       <q-input
         color="#E2E2E2"
         v-model="textFeeling"
         label="Describe your day:"
         type="textarea"
+        filled
       />
     </div>
-    <q-btn class="home__btn tw-bg-primary tw-h-10 tw-mt-auto">
+    <q-btn class="home__btn tw-bg-primary tw-h-10">
       Finish the day
     </q-btn>
   </q-page>
@@ -26,6 +32,9 @@
 import { IEmotion } from 'components/models';
 import EmotionBox from 'components/EmotionBox.vue';
 import { ref } from 'vue';
+import { useDateFormat, useNow } from '@vueuse/core';
+
+const currentDate = useDateFormat(useNow(), 'DD/MM/YYYY HH:mm')
 
 const active = ref<number>();
 
@@ -61,6 +70,8 @@ const emotions = ref<IEmotion[]>([
 
 <style lang="scss" scoped>
 .home {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(100px, 150px);
   grid-template-areas:
       "titles"
       "feelings"
@@ -68,7 +79,7 @@ const emotions = ref<IEmotion[]>([
       "btn"
       ;
 
-  &__title  {
+  &__titles  {
     grid-area: titles;
   }
 

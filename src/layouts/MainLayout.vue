@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHr Lpr lFr">
 
     <q-page-container class="tw-p-4">
       <router-view />
