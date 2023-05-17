@@ -9,19 +9,20 @@
     <!-- <h1>How are you feeling today?</h1> -->
 
     <div class="home__emotion tw-flex tw-w-full tw-overflow-scroll tw-scrollbar-hide  tw-self-start ">
-      <EmotionBox class="tw-mx-3 tw-text-gray-400" :class="{'tw-bg-primary' : active == index}"  v-for="(emotion, index) in emotions" :key="emotion.emotion" :icon="emotion.icon" :emotion="emotion.emotion" @click="() => active == index ? active = -1 : active = index"/>
+      <EmotionBox v-model="emotion.emotion"
+      class="tw-mx-3 tw-text-gray-400" :class="{'tw-bg-primary' : active == index}"  v-for="(emotion, index) in emotions" :key="emotion.emotion" :icon="emotion.icon" :emotion="emotion.emotion" @click="() => active == index ? active = -1 : active = index"/>
     </div>
 
     <div class="home__wrapper">
       <q-input
         color="#E2E2E2"
-        v-model="textFeeling"
+        v-model="diaryEmotionStore.emotionDaily.description"
         label="Describe your day:"
         type="textarea"
         filled
       />
     </div>
-    <q-btn class="home__btn tw-bg-primary tw-h-10">
+    <q-btn class="home__btn tw-bg-primary tw-h-10" :disable="!isValid" @click="handleFinish">
       Finish the day
     </q-btn>
   </q-page>
@@ -31,14 +32,24 @@
 <script setup lang="ts">
 import { IEmotion } from 'components/models';
 import EmotionBox from 'components/EmotionBox.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useDateFormat, useNow } from '@vueuse/core';
+import { useDiaryEmotion } from 'src/stores/diaryEmotion';
+
+const diaryEmotionStore = useDiaryEmotion();
 
 const currentDate = useDateFormat(useNow(), 'DD/MM/YYYY HH:mm')
 
 const active = ref<number>();
 
-const textFeeling = ref('');
+const isValid = () => {
+  return diaryEmotionStore.emotionDaily.description ? false : true;
+}
+
+const handleFinish = () => {
+  diaryEmotionStore.emotionDaily.emotion = emotions.value[active.value as number].emotion;
+  diaryEmotionStore.addDailyEmotion();
+}
 
 const emotions = ref<IEmotion[]>([
   {

@@ -12,7 +12,7 @@
 const { configure } = require('quasar/wrappers');
 const path = require('path');
 
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -71,7 +71,9 @@ module.exports = configure(function (/* ctx */) {
 
       publicPath: '/emotion-manager/',
       // analyze: true,
-      // env: {},
+      env: {
+        SUPABASE_KEY: dotenv.parsed.SUPABASE_KEY
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
