@@ -10,7 +10,7 @@
 
     <div class="home__emotion tw-flex tw-w-full tw-overflow-scroll tw-scrollbar-hide  tw-self-start ">
       <EmotionBox v-model="emotion.emotion"
-      class="tw-mx-3 tw-text-gray-400" :class="{'tw-bg-primary' : active == index}"  v-for="(emotion, index) in emotions" :key="emotion.emotion" :icon="emotion.icon" :emotion="emotion.emotion" @click="() => active == index ? active = -1 : active = index"/>
+      class="tw-mx-3 tw-text-gray-400" :class="{'tw-bg-primary' : active == index}"  v-for="(emotion, index) in emotions" :key="emotion.emotion" :icon="emotion.icon" :emotion="emotion.emotion" @click="() => handleActive(index, emotion)"/>
     </div>
 
     <div class="home__wrapper">
@@ -22,9 +22,17 @@
         filled
       />
     </div>
-    <q-btn class="home__btn tw-bg-primary tw-h-10" :disable="!isValid" @click="handleFinish">
+    <q-btn class="home__btn tw-bg-primary tw-h-10" :disable="isValid" @click="handleFinish">
       Finish the day
     </q-btn>
+
+    <div class="tw-flex tw-justify-center">
+      <div class="tw-w-4/5 tw-mx-auto tw-h-10 tw-bg-second tw-rounded tw-fixed tw-bottom-2">
+        <div >
+          <q-icon icon=""></q-icon>
+        </div>
+      </div>
+    </div>
   </q-page>
 
 </template>
@@ -42,39 +50,47 @@ const currentDate = useDateFormat(useNow(), 'DD/MM/YYYY HH:mm')
 
 const active = ref<number>();
 
-const isValid = () => {
-  return diaryEmotionStore.emotionDaily.description ? false : true;
-}
+const isValid = computed(() => diaryEmotionStore.emotionDaily.description && diaryEmotionStore.emotionDaily.emotion ? false : true)
 
 const handleFinish = () => {
   diaryEmotionStore.emotionDaily.emotion = emotions.value[active.value as number].emotion;
   diaryEmotionStore.addDailyEmotion();
 }
 
+const handleActive = (index: number, emotion: IEmotion) => {
+  if (diaryEmotionStore.emotionDaily.emotion == emotion.emotion) {
+    diaryEmotionStore.emotionDaily.emotion = '';
+
+    return active.value == index ? active.value = -1 : active.value = index
+  }
+  diaryEmotionStore.emotionDaily.emotion = emotion.emotion;
+  return active.value == index ? active.value = -1 : active.value = index
+}
+
 const emotions = ref<IEmotion[]>([
   {
-    icon: 'fa-solid fa-face-laugh-beam',
+    icon: 'img:/emotion-manager/icons/happy.svg',
     emotion: 'Happy'
   },
   {
-    icon: 'fa-solid fa-face-frown',
+    icon: 'img:/emotion-manager/icons/sad.svg',
     emotion: 'Sad'
   },
   {
-    icon: 'fa-solid fa-face-laugh-beam',
+    icon: 'img:/emotion-manager/icons/neutral.svg',
     emotion: 'Neutral'
   },
   {
-    icon: 'fa-solid fa-face-laugh-beam',
+    icon: 'img:/emotion-manager/icons/relaxed.svg',
     emotion: 'Relaxed'
   },
   {
-    icon: 'fa-solid fa-face-laugh-beam',
+    icon: 'img:/emotion-manager/icons/angry.svg',
     emotion: 'Angry'
   },
   {
-    icon: 'fa-solid fa-face-laugh-beam',
-    emotion: 'Happy'
+    icon: 'img:/emotion-manager/icons/confused.svg',
+    emotion: 'Confused'
   },
 ]);
 </script>
