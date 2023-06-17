@@ -1,35 +1,37 @@
 <template>
-  <q-page class="home tw-flex tw-justify-evenly tw-flex-col">
-    <section class="home__titles">
-      <div class="tw-flex tw-justify-center">
-        <p>{{ currentDate }}</p>
+  <q-page class="home row items-center justify-center">
+    <div class="tw-flex tw-justify-evenly tw-flex-col tw-bg-emo-bg-gray tw-rounded tw-p-4 tw-h-screen tw-w-full sm:tw-max-h-[95vh]">
+      <section class="home__titles">
+        <div class="tw-flex tw-justify-center">
+          <p>{{ currentDate }}</p>
+        </div>
+        <h1 class="home__title tw-leading-normal tw-self-end tw-mt-auto">Hi, User</h1>
+      </section>
+      <!-- <h1>How are you feeling today?</h1> -->
+
+      <div class="home__emotion tw-flex tw-w-full tw-overflow-scroll tw-scrollbar-hide  tw-self-start ">
+        <EmotionBox v-model="emotion.emotion"
+        class="tw-mx-3 tw-text-gray-400" :class="{'tw-bg-primary' : active == index}"  v-for="(emotion, index) in emotions" :key="emotion.emotion" :icon="emotion.icon" :emotion="emotion.emotion" @click="() => handleActive(index, emotion)"/>
       </div>
-      <h1 class="home__title tw-leading-normal tw-self-end tw-mt-auto">Hi, User</h1>
-    </section>
-    <!-- <h1>How are you feeling today?</h1> -->
 
-    <div class="home__emotion tw-flex tw-w-full tw-overflow-scroll tw-scrollbar-hide  tw-self-start ">
-      <EmotionBox v-model="emotion.emotion"
-      class="tw-mx-3 tw-text-gray-400" :class="{'tw-bg-primary' : active == index}"  v-for="(emotion, index) in emotions" :key="emotion.emotion" :icon="emotion.icon" :emotion="emotion.emotion" @click="() => handleActive(index, emotion)"/>
-    </div>
+      <div class="home__wrapper">
+        <q-input
+          color="#E2E2E2"
+          v-model="diaryEmotionStore.emotionDaily.description"
+          label="Describe your day:"
+          type="textarea"
+          filled
+        />
+      </div>
+      <q-btn class="home__btn tw-bg-primary tw-h-10" :disable="isValid" @click="handleFinish">
+        Finish the day
+      </q-btn>
 
-    <div class="home__wrapper">
-      <q-input
-        color="#E2E2E2"
-        v-model="diaryEmotionStore.emotionDaily.description"
-        label="Describe your day:"
-        type="textarea"
-        filled
-      />
-    </div>
-    <q-btn class="home__btn tw-bg-primary tw-h-10" :disable="isValid" @click="handleFinish">
-      Finish the day
-    </q-btn>
-
-    <div class="tw-flex tw-justify-center">
-      <div class="tw-w-4/5 tw-mx-auto tw-h-10 tw-bg-second tw-rounded tw-fixed tw-bottom-2">
-        <div >
-          <q-icon icon=""></q-icon>
+      <div class="tw-flex tw-justify-center tw-relative" v-if="false">
+        <div class="tw-w-4/5 tw-mx-auto tw-h-10 tw-bg-second tw-rounded tw-stick tw-bottom-2">
+          <div >
+            <q-icon icon=""></q-icon>
+          </div>
         </div>
       </div>
     </div>

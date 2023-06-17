@@ -7,6 +7,7 @@ module.exports = {
     colors: {
       primary: '#D4ADFC',
       second: '#E2E2E2',
+      'emo-bg-gray': '#f6fff8',
       ...colors
     },
     extend: {},
