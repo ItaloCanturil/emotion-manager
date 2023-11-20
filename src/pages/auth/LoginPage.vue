@@ -17,7 +17,7 @@
     <div class="tw-flex tw-flex-col tw-mt-6">
       <q-btn no-caps rounded class="tw-bg-primary tw-text-white tw-mb-4">Atualize seu diário</q-btn>
 
-      <q-btn flat rounded no-caps @click="signInWithGoogle()">
+      <q-btn flat rounded no-caps @click="userStore.loginWithGoogle()">
         <q-icon name="img:/emotion-manager/icons/icon__google.svg" class="tw-mr-3" size="xs"></q-icon>
 
         Entrar com o Google
@@ -27,7 +27,15 @@
 </template>
 
 <script setup lang="ts">
-import { signInWithGoogle } from 'src/services/signIn';
+import { useUserStore } from 'src/stores/user-store';
+import { onMounted } from 'vue';
+import { supabase } from 'src/boot/supabase';
+import { useRouter } from 'vue-router';
+import useAuthUser from 'src/composables/UseAuthUser';
+// import { signInWithGoogle } from 'src/services/signIn';
+
+const userStore = useUserStore();
+const route = useRouter()
 </script>
 
 <style lang="scss" scoped>

@@ -9,7 +9,7 @@ export const getData = (
     return _default;
   }
 
-  const row = localStorage.getItem('app_atena_omint:' + key);
+  const row = localStorage.getItem('feel:' + key);
   if (row) {
     const data = JSON.parse(row);
     return data.data;
@@ -22,10 +22,7 @@ export const setData = (
   key: string,
   value: unknown | string | object | number
 ) => {
-  return localStorage.setItem(
-    'app_atena_omint:' + key,
-    JSON.stringify({ data: value })
-  );
+  return localStorage.setItem('feel:' + key, JSON.stringify({ data: value }));
 };
 
 export const setDataExpire = (
@@ -36,7 +33,7 @@ export const setDataExpire = (
   const now = new Date();
 
   return localStorage.setItem(
-    'app_atena_omint:' + key,
+    'feel:' + key,
     JSON.stringify({ data: value, expira: now.getTime() + minutos * 60000 })
   );
 };
@@ -49,12 +46,12 @@ export const getDataExpire = (
     return _default;
   }
 
-  const row = localStorage.getItem('app_atena_omint:' + key);
+  const row = localStorage.getItem('feel:' + key);
   if (row) {
     const data = JSON.parse(row);
     const now = new Date();
     if (now.getTime() > data.expira) {
-      localStorage.removeItem('app_atena_omint:' + key);
+      localStorage.removeItem('feel:' + key);
       return _default;
     }
     return data.data;

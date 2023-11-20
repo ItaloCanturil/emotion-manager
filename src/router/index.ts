@@ -8,6 +8,8 @@ import {
 
 import routes from './routes';
 import { useUserStore } from 'src/stores/user-store';
+import { supabase } from 'src/boot/supabase';
+import { setDataExpire } from 'src/util/storeLocal';
 
 /*
  * If not building with SSR mode, you can
@@ -36,7 +38,7 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach((to, from, next) => {
+  Router.beforeEach(async (to, from, next) => {
     // if (to.meta.requiresAuth && !isAuthenticated) {
     //   next({ name: 'home' });
 
@@ -45,6 +47,25 @@ export default route(function (/* { store, ssrContext } */) {
     //     query: { redirect: to.fullPath },
     //   };
     // }
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (to.matched.some((res) => res.meta.requiresAuth)) {
+      console.log(
+        '🚀 ~ file: index.ts:51 ~ Router.beforeEach ~ session:',
+        user
+      );
+      if (user) {
+        setDataExpire('logged', 1, 160 * 4);
+        next();
+        return;
+      }
+      next({ name: 'Login' });
+      return;
+    }
+
     const isAuthenticated = userStore.logged;
     if (!isAuthenticated && to.name !== 'Login') next({ name: 'Login' });
     if (isAuthenticated && to.name == 'Login') next({ name: 'home' });
