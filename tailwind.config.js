@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 module.exports = {
   prefix: 'tw-',
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -8,7 +8,7 @@ module.exports = {
       primary: '#D4ADFC',
       second: '#E2E2E2',
       'emo-bg-gray': '#f6fff8',
-      ...colors
+      ...colors,
     },
     extend: {},
   },
@@ -18,5 +18,4 @@ module.exports = {
     require('tailwindcss'),
     require('autoprefixer'),
   ],
-}
-
+};
