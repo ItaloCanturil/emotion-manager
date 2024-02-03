@@ -14,7 +14,6 @@ export async function signInWithGoogle() {
 
     if (error) throw error;
 
-    console.log('🚀 ~ file: signIn.ts:18 ~ signInWithGoogle ~ data:', data);
     return data;
   } catch (error) {
     console.log(error);

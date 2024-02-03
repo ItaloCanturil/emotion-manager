@@ -37,17 +37,10 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   Router.beforeEach((to, from, next) => {
-    // if (to.meta.requiresAuth && !isAuthenticated) {
-    //   next({ name: 'home' });
-
-    //   return {
-    //     path: '/login',
-    //     query: { redirect: to.fullPath },
-    //   };
-    // }
     const isAuthenticated = userStore.logged;
-    if (!isAuthenticated && to.name !== 'Login') next({ name: 'Login' });
-    if (isAuthenticated && to.name == 'Login') next({ name: 'home' });
+
+    if (!isAuthenticated && to.meta.requiresAuth) next({ name: 'Login' });
+    if (isAuthenticated && to.meta.requiresAuth) next({ name: 'home' });
     else next();
   });
 

@@ -24,6 +24,7 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: false },
       },
       {
+        name: 'signup',
         path: '/signup',
         component: () => import('pages/auth/SignUp.vue'),
         meta: { requiresAuth: false },

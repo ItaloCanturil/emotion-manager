@@ -1,7 +1,8 @@
 <template>
   <q-page
-    class="login-page tw-p-4 tw-flex tw-flex-col tw-items-center tw-justify-center"
+  class="login-page tw-p-4 tw-flex tw-flex-col tw-items-center tw-justify-center"
   >
+    <div class="tw-flex-1"></div>
     <div class="tw-flex">
       <div class="img-wrapper tw-max-w-[190px]">
         <img
@@ -12,7 +13,7 @@
       </div>
       <q-icon name="mdi-translate"></q-icon>
     </div>
-    <div class="tw-mt-6">
+    <div class="tw-mt-6 tw-text-center">
       <h1 class="tw-text-4xl">
         Organize suas ideias e sentimentos diariamente.
       </h1>
@@ -36,6 +37,15 @@
 
         Entrar com o Google
       </q-btn>
+    </div>
+
+    <div class="tw-flex-1"></div>
+
+    <div class="tw-flex tw-items-center tw-gap-2 tw-text-xs">
+      <div>
+        Ainda não tem conta?
+      </div>
+      <RouterLink class="tw-text-primary tw-cursor-pointer" to="/signup" >Registre-se</RouterLink>
     </div>
   </q-page>
 </template>
