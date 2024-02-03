@@ -35,3 +35,11 @@ export const signInWithEmail = async (email: string, password: string) => {
     console.log(error);
   }
 };
+
+export const getUser = async () => {
+  await supabase.auth.getUser().then(({ data }) => {
+    if (data.user) {
+      return data.user;
+    }
+  });
+};

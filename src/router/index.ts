@@ -8,6 +8,8 @@ import {
 
 import routes from './routes';
 import { useUserStore } from 'src/stores/user-store';
+import { supabase } from 'src/boot/supabase';
+import { setDataExpire } from 'src/util/storeLocal';
 
 /*
  * If not building with SSR mode, you can
@@ -36,7 +38,21 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach((to, from, next) => {
+  Router.beforeEach(async (to, from, next) => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (to.matched.some((res) => res.meta.requiresAuth)) {
+      if (user) {
+        setDataExpire('logged', 1, 160 * 4);
+        next();
+        return;
+      }
+      next({ name: 'Login' });
+      return;
+    }
+
     const isAuthenticated = userStore.logged;
 
     if (!isAuthenticated && to.meta.requiresAuth) next({ name: 'Login' });
