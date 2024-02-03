@@ -1,8 +1,9 @@
-import { signInWithEmail } from 'src/services/auth';
+import { getUser, signInWithEmail } from 'src/services/auth';
 import { setDataExpire, getDataExpire, getData } from './../util/storeLocal';
 // import { loginAuth } from '../services/auth';
 import { defineStore } from 'pinia';
 import { supabase } from 'src/boot/supabase';
+import { signInWithGoogle } from 'src/services/signIn';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -25,11 +26,29 @@ export const useUserStore = defineStore('user', {
 
       return response;
     },
+    loginWithGoogle() {
+      const response = signInWithGoogle().then(() => {
+        console.log('volteou');
+      });
+    },
     logout() {
       localStorage.clear();
       this.logged = false;
 
       supabase.auth.signOut();
     },
+    getUser() {
+      const response = getUser();
+
+      response.then((data) => {
+        console.log(data);
+        setDataExpire('logged', 1, 160 * 4);
+      });
+
+      return response;
+    },
+    // setUser() {
+
+    // }
   },
 });
