@@ -48,10 +48,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from 'src/stores/user-store';
-import { onMounted } from 'vue';
-import { supabase } from 'src/boot/supabase';
 import { useRouter } from 'vue-router';
-import useAuthUser from 'src/composables/UseAuthUser';
 // import { signInWithGoogle } from 'src/services/signIn';
 
 const userStore = useUserStore();

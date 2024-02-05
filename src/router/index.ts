@@ -40,11 +40,11 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach(async (to, from, next) => {
     const {
-      data: { user },
-    } = await supabase.auth.getUser();
+      data: { session },
+    } = await supabase.auth.getSession();
 
     if (to.matched.some((res) => res.meta.requiresAuth)) {
-      if (user) {
+      if (session) {
         setDataExpire('logged', 1, 160 * 4);
         next();
         return;
