@@ -1,6 +1,6 @@
 <template>
   <q-page
-  class="login-page tw-p-4 tw-flex tw-flex-col tw-items-center tw-justify-center"
+  class="auth-page tw-p-4 tw-flex tw-flex-col tw-items-center tw-justify-center"
   >
     <div class="tw-flex-1"></div>
     <div class="tw-flex">
@@ -54,14 +54,3 @@ import { useRouter } from 'vue-router';
 const userStore = useUserStore();
 const route = useRouter()
 </script>
-
-<style lang="scss" scoped>
-.login-page {
-  background: linear-gradient(
-      180deg,
-      rgba(171, 65, 255, 0.2) 0%,
-      rgba(171, 65, 255, 0) 100%
-    ),
-    #f6fff8;
-}
-</style>

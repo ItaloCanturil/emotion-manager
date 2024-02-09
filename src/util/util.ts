@@ -41,3 +41,16 @@ export const isArrayContainsOneOrMore = <T>(arr: T[], arr2: T[]) => {
     }) != undefined
   );
 };
+
+export const validateEmail = (val: string): boolean => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  return regex.test(val);
+};
+
+export const validatePassword = (val: string): boolean => {
+  if (val.length < 8) return false;
+  // TODO - Add more validations
+
+  return true;
+};
