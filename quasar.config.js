@@ -66,7 +66,7 @@ module.exports = configure(function (/* ctx */) {
       env: {
         SUPABASE_KEY: process.env.SUPABASE_KEY,
         PUBLIC_VERCEL_URL: process.env.PUBLIC_VERCEL_URL,
-        PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URLm,
+        PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
