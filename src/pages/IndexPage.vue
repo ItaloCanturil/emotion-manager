@@ -1,17 +1,24 @@
 <template>
   <q-page class="home row items-center justify-center">
     <div
-      class="tw-flex tw-justify-evenly tw-flex-col tw-bg-emo-bg-gray tw-rounded tw-p-4 tw-h-screen tw-w-full sm:tw-max-h-[95vh]"
+      class="tw-flex tw-flex-col tw-bg-emo-bg-gray tw-rounded tw-p-4 tw-h-screen tw-w-full sm:tw-max-h-[95vh] tw-gap-8"
     >
       <section class="home__titles">
-        <div class="tw-flex tw-justify-center">
+        <div class="tw-flex tw-justify-between tw-items-center tw-mb-6">
+          <q-btn rounded flat>
+            <q-icon name="eva-home-outline" size="14px"></q-icon>
+          </q-btn>
           <p>{{ currentDate }}</p>
+          <q-btn rounded flat @click="handleLogout()">
+            <q-icon name="eva-log-out-outline" size="14px"></q-icon>
+          </q-btn>
         </div>
         <h1 class="home__title tw-leading-normal tw-self-end tw-mt-auto">
           Hi, User
         </h1>
       </section>
       <!-- <h1>How are you feeling today?</h1> -->
+
 
       <div
         class="home__emotion tw-flex tw-w-full tw-overflow-scroll tw-scrollbar-hide tw-self-start"
@@ -30,13 +37,15 @@
 
       <div class="home__wrapper">
         <q-input
-          color="#E2E2E2"
-          v-model="diaryEmotionStore.emotionDaily.description"
-          label="Describe your day:"
-          type="textarea"
-          filled
+        color="#E2E2E2"
+        v-model="diaryEmotionStore.emotionDaily.description"
+        label="Describe your day:"
+        type="textarea"
+        filled
         />
       </div>
+
+      <div class="tw-flex-1"></div>
       <q-btn
         class="home__btn tw-bg-primary tw-h-10"
         :disable="isValid"
@@ -64,7 +73,13 @@ import EmotionBox from 'components/EmotionBox.vue';
 import { computed, ref } from 'vue';
 import { useDateFormat, useNow } from '@vueuse/core';
 import { useDiaryEmotion } from 'src/stores/diaryEmotion';
+import { useUserStore } from 'src/stores/user-store';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const $q = useQuasar();
+const userStore = useUserStore();
 const diaryEmotionStore = useDiaryEmotion();
 
 const currentDate = useDateFormat(useNow(), 'DD/MM/YYYY HH:mm');
@@ -120,6 +135,19 @@ const emotions = ref<IEmotion[]>([
     emotion: 'Confused',
   },
 ]);
+
+const handleLogout = async () => {
+  try {
+    await userStore.logout()
+
+    router.push({ name: 'Login'})
+  } catch (error) {
+    $q.notify({
+      message: error as string,
+      position: 'bottom'
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

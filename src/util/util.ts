@@ -54,3 +54,15 @@ export const validatePassword = (val: string): boolean => {
 
   return true;
 };
+
+export const getURL = () => {
+  let url =
+    process?.env?.PUBLIC_SITE_URL ??
+    process?.env?.PUBLIC_VERCEL_URL ??
+    'http://localhost:9000/';
+
+  url = url.includes('http') ? url : `https://${url}`;
+
+  url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
+  return url;
+};

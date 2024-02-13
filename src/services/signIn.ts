@@ -1,11 +1,12 @@
 import { supabase } from 'src/boot/supabase';
+import { getURL } from 'src/util/util';
 
 export async function signInWithGoogle() {
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'https://hprstsdakblscvlbkcxf.supabase.co/auth/v1/callback',
+        redirectTo: getURL(),
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
