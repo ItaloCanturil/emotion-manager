@@ -111,27 +111,27 @@ const handleActive = (index: number, emotion: IEmotion) => {
 
 const emotions = ref<IEmotion[]>([
   {
-    icon: 'img:/emotion-manager/icons/happy.svg',
+    icon: 'img:/icons/happy.svg',
     emotion: 'Happy',
   },
   {
-    icon: 'img:/emotion-manager/icons/sad.svg',
+    icon: 'img:/icons/sad.svg',
     emotion: 'Sad',
   },
   {
-    icon: 'img:/emotion-manager/icons/neutral.svg',
+    icon: 'img:/icons/neutral.svg',
     emotion: 'Neutral',
   },
   {
-    icon: 'img:/emotion-manager/icons/relaxed.svg',
+    icon: 'img:/icons/relaxed.svg',
     emotion: 'Relaxed',
   },
   {
-    icon: 'img:/emotion-manager/icons/angry.svg',
+    icon: 'img:/icons/angry.svg',
     emotion: 'Angry',
   },
   {
-    icon: 'img:/emotion-manager/icons/confused.svg',
+    icon: 'img:/icons/confused.svg',
     emotion: 'Confused',
   },
 ]);

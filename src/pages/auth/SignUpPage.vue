@@ -5,7 +5,7 @@
       <div class="img-wrapper tw-max-w-[190px]">
         <img
           class="responsive-img"
-          src="/emotion-manager/mindfullness.svg"
+          src="/mindfullness.svg"
           alt="Mindfullness"
         />
       </div>

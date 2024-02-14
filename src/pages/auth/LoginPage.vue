@@ -7,7 +7,7 @@
       <div class="img-wrapper tw-max-w-[190px]">
         <img
           class="responsive-img"
-          src="/emotion-manager/mindfullness.svg"
+          src="/mindfullness.svg"
           alt="Mindfullness"
         />
       </div>
@@ -29,7 +29,7 @@
       >
 
       <q-btn flat rounded no-caps @click="userStore.loginWithGoogle()">
-        <q-icon name="img:/emotion-manager/icons/icon__google.svg" class="tw-mr-3" size="xs"></q-icon>
+        <q-icon name="img:/icons/icon__google.svg" class="tw-mr-3" size="xs"></q-icon>
 
         Entrar com o Google
       </q-btn>
