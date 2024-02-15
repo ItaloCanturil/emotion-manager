@@ -64,7 +64,12 @@ module.exports = configure(function (/* ctx */) {
 
       publicPath: '/',
       // analyze: true,
-      env: require('dotenv').config().parsed,
+      env: {
+        SUPABASE_URL: process.env.SUPABASE_URL,
+        SUPABASE_KEY: process.env.SUPABASE_KEY,
+        PUBLIC_VERCEL_URL: process.env.PUBLIC_VERCEL_URL,
+        PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,

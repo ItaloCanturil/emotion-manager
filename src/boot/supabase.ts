@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import useAuthUser from 'src/composables/UseAuthUser';
 import { useUserStore } from 'src/stores/user-store';
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -10,10 +9,6 @@ export const supabase = createClient(
 );
 
 supabase.auth.onAuthStateChange((event, session) => {
-  console.log(
-    '🚀 ~ file: supabase.ts:10 ~ supabase.auth.onAuthStateChange ~ session:',
-    session
-  );
   const userStore = useUserStore();
 
   userStore.user = session?.user || null;
