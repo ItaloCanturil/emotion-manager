@@ -39,25 +39,12 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   Router.beforeEach(async (to, from, next) => {
-    // if (to.meta.requiresAuth && !isAuthenticated) {
-    //   next({ name: 'home' });
-
-    //   return {
-    //     path: '/login',
-    //     query: { redirect: to.fullPath },
-    //   };
-    // }
-
     const {
-      data: { user },
-    } = await supabase.auth.getUser();
+      data: { session },
+    } = await supabase.auth.getSession();
 
     if (to.matched.some((res) => res.meta.requiresAuth)) {
-      console.log(
-        '🚀 ~ file: index.ts:51 ~ Router.beforeEach ~ session:',
-        user
-      );
-      if (user) {
+      if (session) {
         setDataExpire('logged', 1, 160 * 4);
         next();
         return;
@@ -67,8 +54,9 @@ export default route(function (/* { store, ssrContext } */) {
     }
 
     const isAuthenticated = userStore.logged;
-    if (!isAuthenticated && to.name !== 'Login') next({ name: 'Login' });
-    if (isAuthenticated && to.name == 'Login') next({ name: 'home' });
+
+    if (!isAuthenticated && to.meta.requiresAuth) next({ name: 'Login' });
+    if (isAuthenticated && to.meta.requiresAuth) next({ name: 'home' });
     else next();
   });
 

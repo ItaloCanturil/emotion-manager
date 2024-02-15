@@ -2,9 +2,12 @@ import { createClient } from '@supabase/supabase-js';
 import useAuthUser from 'src/composables/UseAuthUser';
 import { useUserStore } from 'src/stores/user-store';
 
-const supabaseUrl = 'https://hprstsdakblscvlbkcxf.supabase.co';
+const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
-export const supabase = createClient(supabaseUrl, supabaseKey as string);
+export const supabase = createClient(
+  supabaseUrl as string,
+  supabaseKey as string
+);
 
 supabase.auth.onAuthStateChange((event, session) => {
   console.log(

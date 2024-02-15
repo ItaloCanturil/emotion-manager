@@ -10,8 +10,7 @@
 
 const { configure } = require('quasar/wrappers');
 const path = require('path');
-
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -56,18 +55,16 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16',
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: '/emotion-manager/',
+      publicPath: '/',
       // analyze: true,
-      env: {
-        SUPABASE_KEY: dotenv.parsed.SUPABASE_KEY,
-      },
+      env: require('dotenv').config().parsed,
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,

@@ -41,3 +41,28 @@ export const isArrayContainsOneOrMore = <T>(arr: T[], arr2: T[]) => {
     }) != undefined
   );
 };
+
+export const validateEmail = (val: string): boolean => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  return regex.test(val);
+};
+
+export const validatePassword = (val: string): boolean => {
+  if (val.length < 8) return false;
+  // TODO - Add more validations
+
+  return true;
+};
+
+export const getURL = () => {
+  let url =
+    process?.env?.PUBLIC_SITE_URL ??
+    process?.env?.PUBLIC_VERCEL_URL ??
+    'http://localhost:9000/';
+
+  url = url.includes('http') ? url : `https://${url}`;
+
+  url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
+  return url;
+};
