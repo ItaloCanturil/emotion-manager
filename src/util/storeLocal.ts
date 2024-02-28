@@ -73,3 +73,7 @@ export const setDataExpireByDate = (
   log(`setDataExpireByDate:${key}:${date}:minutes`, { minutes, duration });
   return setDataExpire(key, value, minutes);
 };
+
+export const removeDataExpire = (key: string) => {
+  return localStorage.removeItem('feel' + key);
+};

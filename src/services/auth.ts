@@ -1,9 +1,5 @@
 import { supabase } from 'src/boot/supabase';
-
-type SignUpData = {
-  email: string;
-  password: string;
-};
+import { SignUpData } from 'src/types/authType';
 
 export const signUp = async (params: SignUpData) => {
   try {
