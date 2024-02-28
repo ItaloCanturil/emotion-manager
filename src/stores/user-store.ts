@@ -1,9 +1,13 @@
-import { getUser, signInWithEmail } from 'src/services/auth';
-import { setDataExpire, getDataExpire, getData } from './../util/storeLocal';
-// import { loginAuth } from '../services/auth';
+import { getUser, signInWithEmail, signUp } from 'src/services/auth';
+import {
+  setDataExpire,
+  getDataExpire,
+  removeDataExpire,
+} from './../util/storeLocal';
 import { defineStore } from 'pinia';
 import { supabase } from 'src/boot/supabase';
 import { signInWithGoogle } from 'src/services/signIn';
+import { SignUpData } from 'src/types/authType';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -49,8 +53,21 @@ export const useUserStore = defineStore('user', {
 
       return response;
     },
-    // setUser() {
+    async signUpUser(params: SignUpData) {
+      try {
+        const response = await signUp(params);
 
-    // }
+        if (response.user) {
+          this.getUser();
+
+          this.logged = true;
+        }
+
+        return response;
+      } catch (error) {
+        removeDataExpire('logged');
+        throw error;
+      }
+    },
   },
 });
