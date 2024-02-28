@@ -48,9 +48,5 @@
 
 <script setup lang="ts">
 import { useUserStore } from 'src/stores/user-store';
-import { useRouter } from 'vue-router';
-// import { signInWithGoogle } from 'src/services/signIn';
-
 const userStore = useUserStore();
-const route = useRouter()
 </script>
