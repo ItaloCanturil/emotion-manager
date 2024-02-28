@@ -1,10 +1,11 @@
+import { Provider } from '@supabase/supabase-js';
 import { supabase } from 'src/boot/supabase';
 import { getURL } from 'src/util/util';
 
-export async function signInWithGoogle() {
+export async function signInWithProvider(provider: Provider) {
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
+      provider: provider,
       options: {
         redirectTo: getURL(),
         queryParams: {

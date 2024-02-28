@@ -6,8 +6,9 @@ import {
 } from './../util/storeLocal';
 import { defineStore } from 'pinia';
 import { supabase } from 'src/boot/supabase';
-import { signInWithGoogle } from 'src/services/signIn';
+import { signInWithProvider } from 'src/services/signIn';
 import { SignUpData } from 'src/types/authType';
+import { Provider } from '@supabase/supabase-js';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -30,10 +31,8 @@ export const useUserStore = defineStore('user', {
 
       return response;
     },
-    loginWithGoogle() {
-      const response = signInWithGoogle().then(() => {
-        console.log('volteou');
-      });
+    loginWithProvider(provider: Provider) {
+      const response = signInWithProvider(provider);
     },
     async logout() {
       localStorage.clear();

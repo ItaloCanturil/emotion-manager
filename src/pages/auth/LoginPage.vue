@@ -28,7 +28,7 @@
         >Atualize seu diário</q-btn
       >
 
-      <q-btn flat rounded no-caps @click="userStore.loginWithGoogle()">
+      <q-btn flat rounded no-caps @click="userStore.loginWithProvider('google')">
         <q-icon name="img:/icons/icon__google.svg" class="tw-mr-3" size="xs"></q-icon>
 
         Entrar com o Google
