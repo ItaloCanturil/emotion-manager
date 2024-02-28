@@ -21,13 +21,13 @@
       </div>
     </div>
 
-    <form class="tw-flex tw-flex-col tw-mt-6 tw-w-full tw-max-w-xs">
+    <div class="tw-flex tw-flex-col tw-mt-6 tw-w-full tw-max-w-xs">
       <q-input v-model="form.email" label="Email" :rules="[val => validateEmail(val) || 'Insira um email válido']"></q-input>
 
       <q-input v-model="form.password" label="Senha" type="password" :rules="[val => val.length >= 8 || 'Insira uma senha válida']"></q-input>
 
-      <q-btn no-caps rounded class="tw-bg-primary tw-text-white tw-mb-4" type="submit" :disable="!isValid" @click="handleRegister">Registre-se</q-btn>
-    </form>
+      <q-btn no-caps rounded class="tw-bg-primary tw-text-white tw-mb-4" type="submit" :disable="!isValid" @click="handleRegister()">Registre-se</q-btn>
+    </div>
 
     <div class="tw-flex-1"></div>
 
@@ -44,10 +44,11 @@
 <script lang="ts" setup>
 import { validateEmail } from 'src/util/util';
 import { computed, ref } from 'vue';
-import { signUp } from 'src/services/auth';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import { useUserStore } from 'src/stores/user-store';
 
+const userStore = useUserStore();
 const $q = useQuasar();
 const router = useRouter();
 
@@ -62,7 +63,7 @@ const isValid = computed(() => {
 
 const handleRegister = async () => {
   try {
-    const response = await signUp(form.value);
+    const response = await userStore.signUpUser(form.value);
 
 
     if (response) {
