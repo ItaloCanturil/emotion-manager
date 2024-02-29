@@ -14,10 +14,9 @@
           </q-btn>
         </div>
         <h1 class="home__title tw-leading-normal tw-self-end tw-mt-auto">
-          Hi, User
+          Hi, {{ username }}
         </h1>
       </section>
-      <!-- <h1>How are you feeling today?</h1> -->
 
 
       <div
@@ -92,6 +91,15 @@ const isValid = computed(() =>
     ? false
     : true
 );
+
+const username = computed(() => {
+  if (typeof userStore.user === 'object' && userStore.user !== null) {
+    const user = userStore.user as { raw_user_meta_data?: { name?: string } };
+    return user.raw_user_meta_data && user.raw_user_meta_data.name ? user.raw_user_meta_data.name : 'User'
+  }
+
+  return 'User'
+});
 
 const handleFinish = () => {
   diaryEmotionStore.emotionDaily.emotion =
