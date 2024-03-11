@@ -7,7 +7,6 @@ export const signUp = async (params: SignUpData) => {
       email: params.email,
       password: params.password,
     });
-    console.log('🚀 ~ signUp ~ data:', data);
 
     if (error) {
       throw error;
@@ -20,21 +19,21 @@ export const signUp = async (params: SignUpData) => {
   }
 };
 
-export const signInWithEmail = async (email: string, password: string) => {
+export const signInWithEmail = async (params: SignUpData) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
+      email: params.email,
+      password: params.password,
     });
 
     if (error) {
       throw error;
     }
 
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

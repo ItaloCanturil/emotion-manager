@@ -17,19 +17,21 @@ export const useUserStore = defineStore('user', {
     session: getDataExpire('session'),
   }),
   actions: {
-    login(email: string, password: string) {
-      const response = signInWithEmail(email, password);
+    async login(params: SignUpData) {
+      try {
+        const response = await signInWithEmail(params);
 
-      response.then((res) => {
-        this.user = res?.user;
-        setDataExpire('logged', 1, 160 * 4);
-        setDataExpire('auth', res?.user, 160 * 4);
-        setDataExpire('session', res?.session, 160 * 4);
+        if (response.user) {
+          this.getUser();
 
-        this.logged = true;
-      });
+          this.logged = true;
+        }
 
-      return response;
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     },
     loginWithProvider(provider: Provider) {
       const response = signInWithProvider(provider);
