@@ -57,9 +57,9 @@ export const validatePassword = (val: string): boolean => {
 
 export const getURL = () => {
   let url =
+    'http://localhost:9000/' ??
     process?.env?.PUBLIC_SITE_URL ??
-    process?.env?.PUBLIC_VERCEL_URL ??
-    'http://localhost:9000/';
+    process?.env?.PUBLIC_VERCEL_URL;
 
   url = url.includes('http') ? url : `https://${url}`;
 
