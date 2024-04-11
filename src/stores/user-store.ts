@@ -70,5 +70,18 @@ export const useUserStore = defineStore('user', {
         throw error;
       }
     },
+    async recoveryPass(email: string) {
+      try {
+        const { data, error } = await supabase.auth.resetPasswordForEmail(
+          email
+        );
+
+        if (error) throw error;
+
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    },
   },
 });

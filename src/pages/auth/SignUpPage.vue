@@ -40,7 +40,6 @@
   </q-page>
 </template>
 
-
 <script lang="ts" setup>
 import { validateEmail } from 'src/util/util';
 import { computed, ref } from 'vue';

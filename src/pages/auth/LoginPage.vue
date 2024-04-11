@@ -35,7 +35,7 @@
       </q-btn>
     </div>
 
-    <form class="tw-flex tw-flex-col tw-mt-6 tw-w-full tw-max-w-xs" v-if="isEmail">
+    <form class="tw-flex tw-flex-col tw-mt-6 tw-w-full tw-max-w-xs" v-if="isEmail && !isRecovery">
       <q-input v-model="form.email" label="Email" :rules="[val => validateEmail(val) || 'Insira um email válido']"></q-input>
 
       <q-input v-model="form.password" label="Senha" type="password" :rules="[val => val.length >= 8 || 'Insira uma senha válida']"></q-input>
@@ -43,11 +43,18 @@
       <q-btn no-caps rounded class="tw-bg-primary tw-text-white tw-mb-4" type="submit" :disable="!isValid" @click.prevent="handleLogin()">Login</q-btn>
 
     </form>
+    <form class="tw-flex tw-flex-col tw-mt-6 tw-w-full tw-max-w-xs" v-if="isRecovery">
+      <q-input v-model="form.email" label="Email" :rules="[val => validateEmail(val) || 'Insira um email válido']"></q-input>
 
-    <div class="tw-flex tw-flex-col tw-items-center">
-      <div class=" tw-text-xs tw-cursor-pointer" @click="isEmail = !isEmail" v-if="isEmail">Alterar forma de login</div>
-      <div>
-        Esqueceu a senha?
+
+      <q-btn no-caps rounded class="tw-bg-primary tw-text-white tw-mb-4" type="submit" :disable="!isValid" @click.prevent="handleRecovery()">Recuperar senha</q-btn>
+
+    </form>
+
+    <div class="tw-flex tw-items-center tw-justify-between tw-max-w-xs tw-px-1 tw-w-full" v-if="isEmail">
+      <div class="tw-text-xs tw-cursor-pointer" @click="isEmail = !isEmail">Alterar forma de login</div>
+      <div class="tw-text-xs tw-cursor-pointer" @click="isRecovery = !isRecovery">
+        {{ !isRecovery ? 'Esqueceu a senha?' : 'Fazer login' }}
       </div>
     </div>
 
@@ -74,6 +81,7 @@ const $q = useQuasar();
 const router = useRouter();
 
 const isEmail = ref(false);
+const isRecovery = ref(false);
 
 const form = ref({
   email: '',
@@ -102,6 +110,28 @@ const handleLogin = async () => {
     $q.notify({
       color: 'negative',
       message: 'Erro nas credenciais do login',
+      position: 'bottom',
+    });
+  }
+}
+
+const handleRecovery = async () => {
+  try {
+    const response = await userStore.recoveryPass(form.value.email);
+
+    if (response) {
+      $q.notify({
+        color: 'positive',
+        message: 'Visualize seu email para os próximos passos',
+        position: 'bottom'
+      });
+
+      router.push('/');
+    }
+  } catch (error) {
+    $q.notify({
+      color: 'negative',
+      message: 'Erro nas credenciais',
       position: 'bottom',
     });
   }
