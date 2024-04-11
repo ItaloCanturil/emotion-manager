@@ -11,13 +11,28 @@ export const useDiaryEmotion = defineStore('diary', {
     emotionDaily: {} as IDailyEmotion,
   }),
   actions: {
-    async addDailyEmotion() {
-      const { data, error } = await supabase.from('emotions').insert([
-        {
-          emotion: this.emotionDaily.emotion,
-          description: this.emotionDaily.description,
-        },
-      ]);
+    async addDailyEmotion(param: IDailyEmotion) {
+      try {
+        const { data, error } = await supabase.from('emotions').insert([
+          {
+            emotion: param.emotion,
+            description: param.description,
+          },
+        ]);
+
+        if (error) throw error;
+
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    clearData() {
+      this.emotionDaily = {
+        emotion: '',
+        description: '',
+      };
     },
   },
 });

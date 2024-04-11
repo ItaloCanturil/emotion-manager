@@ -85,12 +85,8 @@ const currentDate = useDateFormat(useNow(), 'DD/MM/YYYY HH:mm');
 
 const active = ref<number>();
 
-const isValid = computed(() =>
-  diaryEmotionStore.emotionDaily.description &&
-  diaryEmotionStore.emotionDaily.emotion
-    ? false
-    : true
-);
+const isValid = computed(() => diaryEmotionStore.emotionDaily.description &&
+  diaryEmotionStore.emotionDaily.emotion);
 
 const username = computed(() => {
   if (typeof userStore.user === 'object' && userStore.user !== null) {
@@ -101,10 +97,27 @@ const username = computed(() => {
   return 'User'
 });
 
-const handleFinish = () => {
-  diaryEmotionStore.emotionDaily.emotion =
-    emotions.value[active.value as number].emotion;
-  diaryEmotionStore.addDailyEmotion();
+const handleFinish = async () => {
+  try {
+    const res = await diaryEmotionStore.addDailyEmotion({
+    emotion: emotions.value[active.value as number].emotion,
+    description: diaryEmotionStore.emotionDaily.description,
+  });
+
+
+    $q.notify({
+      message: 'Concluído',
+      position: 'bottom'
+    })
+  } catch (error) {
+    $q.notify({
+      message: error as string,
+      position: 'bottom'
+    })
+  } finally {
+    active.value = -1;
+    diaryEmotionStore.clearData();
+  }
 };
 
 const handleActive = (index: number, emotion: IEmotion) => {
