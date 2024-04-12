@@ -47,7 +47,7 @@
       <div class="tw-flex-1"></div>
       <q-btn
         class="home__btn tw-bg-primary tw-h-10"
-        :disable="isValid"
+        :disable="!isValid"
         @click="handleFinish"
       >
         Finish the day
@@ -85,8 +85,8 @@ const currentDate = useDateFormat(useNow(), 'DD/MM/YYYY HH:mm');
 
 const active = ref<number>();
 
-const isValid = computed(() => diaryEmotionStore.emotionDaily.description &&
-  diaryEmotionStore.emotionDaily.emotion);
+const isValid = computed(() => Boolean(diaryEmotionStore.emotionDaily.description) &&
+Boolean(diaryEmotionStore.emotionDaily.emotion));
 
 const username = computed(() => {
   if (typeof userStore.user === 'object' && userStore.user !== null) {
