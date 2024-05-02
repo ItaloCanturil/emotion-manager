@@ -4,6 +4,7 @@ import { supabase } from 'src/boot/supabase';
 interface IDailyEmotion {
   description: string;
   emotion: string;
+  user_id: string | null;
 }
 
 export const useDiaryEmotion = defineStore('diary', {
@@ -17,6 +18,7 @@ export const useDiaryEmotion = defineStore('diary', {
           {
             emotion: param.emotion,
             description: param.description,
+            user_id: param.user_id,
           },
         ]);
 
