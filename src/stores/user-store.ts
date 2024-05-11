@@ -6,14 +6,15 @@ import {
 } from './../util/storeLocal';
 import { defineStore } from 'pinia';
 import { supabase } from 'src/boot/supabase';
-import { signInWithProvider } from 'src/services/signIn';
+import { signInWithProvider } from 'src/services/auth';
 import { SignUpData } from 'src/types/authType';
 import { Provider } from '@supabase/supabase-js';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
+    loading: false,
     logged: Boolean(getDataExpire('logged')),
-    user: getDataExpire('auth'),
+    user: getDataExpire('user'),
     session: getDataExpire('session'),
   }),
   actions: {
@@ -22,8 +23,6 @@ export const useUserStore = defineStore('user', {
         const response = await signInWithEmail(params);
 
         if (response.user) {
-          this.getUser();
-
           this.logged = true;
         }
 
@@ -44,23 +43,35 @@ export const useUserStore = defineStore('user', {
 
       if (error) throw error;
     },
-    getUser() {
-      const response = getUser();
+    async getProfile() {
+      try {
+        this.loading = true;
+        const { user } = this.session;
+        console.log('🚀 ~ getProfile ~ user:', user);
 
-      response.then((data) => {
-        console.log(data);
-        setDataExpire('logged', 1, 160 * 4);
-      });
+        const { data, error, status } = await supabase
+          .from('profiles')
+          .select('username, website, avatar_url')
+          .eq('id', user.id)
+          .single();
 
-      return response;
+        console.log('🚀 ~ getProfile ~ status:', status);
+        if (error && status !== 406) throw error;
+
+        if (data) {
+          this.user = data;
+        }
+      } catch (error: any) {
+        alert(error.message);
+      } finally {
+        this.loading = false;
+      }
     },
     async signUpUser(params: SignUpData) {
       try {
         const response = await signUp(params);
 
         if (response.user) {
-          this.getUser();
-
           this.logged = true;
         }
 
