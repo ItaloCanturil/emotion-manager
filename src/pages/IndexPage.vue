@@ -1,12 +1,12 @@
 <template>
   <q-page class="home row items-center justify-center">
     <div
-      class="tw-flex tw-flex-col tw-bg-emo-bg-gray tw-rounded tw-p-4 tw-h-screen tw-w-full sm:tw-max-h-[95vh] tw-gap-8"
+      class="tw-flex tw-flex-col tw-bg-emo-bg-gray tw-rounded tw-p-4 tw-h-screen tw-w-full tw-gap-8"
     >
       <section class="home__titles">
         <div class="tw-flex tw-justify-between tw-items-center tw-mb-6">
-          <q-btn rounded flat>
-            <q-icon name="eva-home-outline" size="14px"></q-icon>
+          <q-btn rounded flat to="/user/">
+            <q-icon name="eva-person-outline" size="14px"></q-icon>
           </q-btn>
           <p>{{ currentDate }}</p>
           <q-btn rounded flat @click="handleLogout()">
@@ -50,8 +50,14 @@
         :disable="!isValid"
         @click="handleFinish"
       >
-        Finish the day
+        Finish
       </q-btn>
+      <!-- <q-btn
+        class="home__btn tw-bg-primary tw-h-10"
+        @click="handleHistory"
+      >
+        History
+      </q-btn> -->
 
       <div class="tw-flex tw-justify-center tw-relative" v-if="false">
         <div
@@ -69,7 +75,7 @@
 <script setup lang="ts">
 import { IEmotion } from 'components/models';
 import EmotionBox from 'components/EmotionBox.vue';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useDateFormat, useNow } from '@vueuse/core';
 import { useDiaryEmotion } from 'src/stores/diaryEmotion';
 import { useUserStore } from 'src/stores/user-store';
@@ -83,6 +89,7 @@ const diaryEmotionStore = useDiaryEmotion();
 
 const currentDate = useDateFormat(useNow(), 'DD/MM/YYYY HH:mm');
 
+const testHistory = ref('');
 const active = ref<number>();
 
 const isValid = computed(() => Boolean(diaryEmotionStore.emotionDaily.description) &&
@@ -100,9 +107,10 @@ const username = computed(() => {
 const handleFinish = async () => {
   try {
     const res = await diaryEmotionStore.addDailyEmotion({
-    emotion: emotions.value[active.value as number].emotion,
-    description: diaryEmotionStore.emotionDaily.description,
-  });
+      emotion: emotions.value[active.value as number].emotion,
+      description: diaryEmotionStore.emotionDaily.description,
+      user_id: userStore.user.id
+    });
 
 
     $q.notify({
@@ -119,6 +127,13 @@ const handleFinish = async () => {
     diaryEmotionStore.clearData();
   }
 };
+
+// const handleHistory = () => {
+//   const res = diaryEmotionStore.recoveryHistory(u)
+//   console.log('🚀 ~ handleHistory ~ res:', res)
+
+//   testHistory.value = res;
+// }
 
 const handleActive = (index: number, emotion: IEmotion) => {
   if (diaryEmotionStore.emotionDaily.emotion == emotion.emotion) {
@@ -169,6 +184,18 @@ const handleLogout = async () => {
     })
   }
 }
+
+onMounted(() => {
+  userStore.getProfile();
+
+  if (userStore.user == null) {
+    $q.notify({
+      message: 'Complete seu cadastro para adicionar o que você sente',
+      position: 'bottom',
+      actions: [{ label: 'Clique aqui', handler: () => { router.push('user')}}]
+    })
+  }
+})
 </script>
 
 <style lang="scss" scoped>
