@@ -1,22 +1,9 @@
 <template>
-  <q-page class="home row items-center justify-center">
+  <q-page class="home row items-center justify-center" :style-fn="tweak">
     <div
-      class="tw-flex tw-flex-col tw-bg-emo-bg-gray tw-rounded tw-p-4 tw-h-screen tw-w-full sm:tw-max-h-[95vh] tw-gap-8"
+      class="tw-flex tw-flex-col tw-rounded tw-p-4 tw-h-screen tw-w-full tw-gap-8"
     >
-      <section class="home__titles">
-        <div class="tw-flex tw-justify-between tw-items-center tw-mb-6">
-          <q-btn rounded flat>
-            <q-icon name="eva-home-outline" size="14px"></q-icon>
-          </q-btn>
-          <p>{{ currentDate }}</p>
-          <q-btn rounded flat @click="handleLogout()">
-            <q-icon name="eva-log-out-outline" size="14px"></q-icon>
-          </q-btn>
-        </div>
-        <h1 class="home__title tw-leading-normal tw-self-end tw-mt-auto">
-          Hi, {{ username }}
-        </h1>
-      </section>
+
 
 
       <div
@@ -44,24 +31,14 @@
         />
       </div>
 
-      <div class="tw-flex-1"></div>
+      <!-- <div class="tw-flex-1"></div> -->
       <q-btn
-        class="home__btn tw-bg-primary tw-h-10"
+        class="home__btn tw-bg-primary tw-h-10 tw-rounded-xl"
         :disable="!isValid"
         @click="handleFinish"
       >
-        Finish the day
+        {{ $t('finish_button') }}
       </q-btn>
-
-      <div class="tw-flex tw-justify-center tw-relative" v-if="false">
-        <div
-          class="tw-w-4/5 tw-mx-auto tw-h-10 tw-bg-second tw-rounded tw-stick tw-bottom-2"
-        >
-          <div>
-            <q-icon icon=""></q-icon>
-          </div>
-        </div>
-      </div>
     </div>
   </q-page>
 </template>
@@ -70,32 +47,17 @@
 import { IEmotion } from 'components/models';
 import EmotionBox from 'components/EmotionBox.vue';
 import { computed, ref } from 'vue';
-import { useDateFormat, useNow } from '@vueuse/core';
 import { useDiaryEmotion } from 'src/stores/diaryEmotion';
-import { useUserStore } from 'src/stores/user-store';
 import { useQuasar } from 'quasar';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
 const $q = useQuasar();
-const userStore = useUserStore();
 const diaryEmotionStore = useDiaryEmotion();
-
-const currentDate = useDateFormat(useNow(), 'DD/MM/YYYY HH:mm');
 
 const active = ref<number>();
 
 const isValid = computed(() => Boolean(diaryEmotionStore.emotionDaily.description) &&
 Boolean(diaryEmotionStore.emotionDaily.emotion));
 
-const username = computed(() => {
-  if (typeof userStore.user === 'object' && userStore.user !== null) {
-    const user = userStore.user as { raw_user_meta_data?: { name?: string } };
-    return user.raw_user_meta_data && user.raw_user_meta_data.name ? user.raw_user_meta_data.name : 'User'
-  }
-
-  return 'User'
-});
 
 const handleFinish = async () => {
   try {
@@ -157,17 +119,8 @@ const emotions = ref<IEmotion[]>([
   },
 ]);
 
-const handleLogout = async () => {
-  try {
-    await userStore.logout()
-
-    router.push({ name: 'Login'})
-  } catch (error) {
-    $q.notify({
-      message: error as string,
-      position: 'bottom'
-    })
-  }
+const tweak = (offset: string) => {
+  return { minHeight: offset ? `calc(-100vh + ${offset}px)` : '100vh' }
 }
 </script>
 
