@@ -1,7 +1,13 @@
-// This is just an example,
-// so you can safely delete all default props below
-
 export default {
-  failed: 'Action failed',
-  success: 'Action was successful',
+  hi: 'Hi, {user}',
+  finish_button: 'Finish the quote',
+  describe: 'Describe your quote',
+  emotions: {
+    happy: 'Happy',
+    sad: 'Sad',
+    neutral: 'Neutral',
+    relaxed: 'Relaxed',
+    angry: 'Angry',
+    confused: 'Confused',
+  },
 };
